@@ -1,0 +1,7 @@
+DB credintals
+user=dev
+password=dev
+db=dev_db
+
+nadawanie uprawnień, w konsoli psql (grant all privilages on database ${dbname} to ${userName})
+zmiana hasła: alter user ${userName} with encrypted password ${password}
