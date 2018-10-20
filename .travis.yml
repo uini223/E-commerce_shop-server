@@ -1,8 +1,0 @@
-language: java
-jdk: oraclejdk11
-install: true
-stages:
-  - compile
-jobs:
-  include:
-  - script: echo "skipping stages"
