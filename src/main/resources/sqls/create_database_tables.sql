@@ -39,7 +39,7 @@ create table if not exists users (
   id bigserial primary key,
   login varchar(30) not null,
   password varchar(30) not null,
-  customer_id bigserial null constraint user_customer_fk references customers(id)
+  customer_id bigserial constraint user_customer_fk references customers(id)
 );
 
 create table if not exists categories (
