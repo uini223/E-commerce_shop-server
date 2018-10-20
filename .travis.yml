@@ -3,5 +3,6 @@ jdk: oraclejdk11
 install: true
 stages:
   - compile
-script:
-  - echo "skipping tests"
+jobs:
+  include:
+  - script: echo "skipping stages"
