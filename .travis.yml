@@ -1,7 +1,7 @@
 language: java
 jdk: oraclejdk11
+install: true
 stages:
   - compile
 script:
   - echo "skipping tests"
-install: true
