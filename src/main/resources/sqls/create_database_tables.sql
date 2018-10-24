@@ -78,3 +78,5 @@ create table if not exists product_orders (
   order_id bigserial constraint product_order__order_fk references orders(id),
   constraint product_order_pk primary key (user_id, order_id)
 );
+
+alter table users alter column customer_id drop not null

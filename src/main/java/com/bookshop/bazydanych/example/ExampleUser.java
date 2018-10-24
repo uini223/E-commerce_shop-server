@@ -16,4 +16,6 @@ public class ExampleUser extends BaseNamedEntity {
     public ExampleUser(long id, String name) {
         super(id, name);
     }
+
+
 }
