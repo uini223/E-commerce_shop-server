@@ -24,8 +24,19 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User getUser(Integer id) {
+    public User getUser(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    public void editUser(UserDTO newUserData) throws Exception{
+//        User user = userRepository.findById(newUserData.getId()).orElseThrow(Exception::new);
+//        user.ifPresent(user1 -> {
+//            user1.setLogin(newUserData.getLogin());
+//            user1.setPassword(newUserData.getPassword());
+//        });
+//        user.setLogin(newUserData.getLogin());
+//        user.setPassword(newUserData.getPassword());
+
     }
 
 
