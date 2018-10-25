@@ -9,11 +9,11 @@ public abstract class BaseEntity {
     @Id
     private long id;
 
-    public BaseEntity() {
+    public BaseEntity(long id) {
+        this.id = id;
     }
 
-    BaseEntity(long id) {
-        this.id = id;
+    public BaseEntity() {
     }
 
     public long getId() {

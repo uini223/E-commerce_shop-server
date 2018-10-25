@@ -1,8 +1,8 @@
-create table test_users(
+create table example_users(
   id bigserial primary key,
   name varchar(30) not null
 );
-insert into test_users(name)
+insert into example_users(name)
     values ('emil');
-insert into test_users(name)
+insert into example_users(name)
     values ('ramon');
