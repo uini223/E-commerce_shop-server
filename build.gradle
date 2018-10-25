@@ -28,9 +28,6 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-jdbc')
     implementation('org.springframework.boot:spring-boot-starter-security')
     implementation('org.springframework.boot:spring-boot-starter-web')
-    implementation group: 'javassist', name: 'javassist', version: '3.12.1.GA'
-    implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.3.7.Final'
-    implementation group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.3.7.Final'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.0.5.RELEASE'
     implementation('org.springframework.boot:spring-boot-starter-data-jpa') {
         exclude module: 'dom4j'

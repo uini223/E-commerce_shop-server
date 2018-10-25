@@ -2,6 +2,7 @@ package com.bookshop.bazydanych.user;
 
 import com.bookshop.bazydanych.shared.BaseEntity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -10,8 +11,11 @@ import javax.persistence.Table;
 @Table(name = "users")
 public class User extends BaseEntity {
 
+    @Column(name = "login")
     private String login;
+    @Column(name = "password")
     private String password;
+    @Column(name = "customer_id")
     private Long customer_id;
 
     public User(long id, String login, String password, Long customer_id) {
@@ -28,23 +32,11 @@ public class User extends BaseEntity {
         return login;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Long getCustomer_id() {
         return customer_id;
-    }
-
-    public void setCustomer_id(Long customer_id) {
-        this.customer_id = customer_id;
     }
 }

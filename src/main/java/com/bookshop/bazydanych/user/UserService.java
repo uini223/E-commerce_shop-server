@@ -28,7 +28,7 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public void editUser(UserDTO newUserData) throws Exception{
+    public void editUser(UserDTO newUserData) throws Exception {
 //        User user = userRepository.findById(newUserData.getId()).orElseThrow(Exception::new);
 //        user.ifPresent(user1 -> {
 //            user1.setLogin(newUserData.getLogin());
