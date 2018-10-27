@@ -29,6 +29,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-security')
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.0.5.RELEASE'
+    implementation group: 'org.javassist', name: 'javassist', version: '3.23.1-GA'
     implementation('org.springframework.boot:spring-boot-starter-data-jpa') {
         exclude module: 'dom4j'
     }
