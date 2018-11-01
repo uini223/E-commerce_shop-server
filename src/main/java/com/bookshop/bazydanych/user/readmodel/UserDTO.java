@@ -1,4 +1,4 @@
-package com.bookshop.bazydanych.user;
+package com.bookshop.bazydanych.user.readmodel;
 
 import java.io.Serializable;
 

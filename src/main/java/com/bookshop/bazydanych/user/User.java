@@ -1,10 +1,9 @@
 package com.bookshop.bazydanych.user;
 
 import com.bookshop.bazydanych.shared.BaseEntity;
+import com.bookshop.bazydanych.user.infrastructure.UserRole;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Entity
@@ -13,19 +12,30 @@ public class User extends BaseEntity {
 
     @Column(name = "login")
     private String login;
+
     @Column(name = "password")
     private String password;
+
     @Column(name = "customer_id")
     private Long customer_id;
 
-    public User(long id, String login, String password, Long customer_id) {
-        super(id);
+    @Column(name = "role")
+	@Enumerated(EnumType.STRING)
+	private UserRole role;
+
+    public User(String login, String password, UserRole role) {
         this.login = login;
         this.password = password;
-        this.customer_id = customer_id;
+        this.role = role;
     }
 
-    public User() {
+	public User(String login, String password) {
+		this.login = login;
+		this.password = password;
+		this.role = UserRole.USER;
+	}
+
+	public User() {
     }
 
     public String getLogin() {
@@ -39,4 +49,8 @@ public class User extends BaseEntity {
     public Long getCustomer_id() {
         return customer_id;
     }
+
+    public boolean isPasswordCorrect(String password) {
+    	return this.password.contentEquals(password);
+	}
 }
