@@ -1,5 +1,8 @@
-package com.bookshop.bazydanych.user;
+package com.bookshop.bazydanych.user.application;
 
+import com.bookshop.bazydanych.user.User;
+import com.bookshop.bazydanych.user.infrastructure.UserRepository;
+import com.bookshop.bazydanych.user.readmodel.UserDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
