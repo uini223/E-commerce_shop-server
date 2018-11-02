@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
+import java.util.Map;
+
 @RestController
 @RequestMapping("public/users")
 public class PublicUserController {
@@ -21,18 +24,18 @@ public class PublicUserController {
 	}
 
 	@PostMapping("/register")
-	public String register(
+	public Map register(
 		@RequestParam("username") final String username,
 		@RequestParam("password") final String password) {
 		userSecurityService.addNewUser(username, password);
 		return login(username, password);
 	}
 
-	@PostMapping("/login")
-	public String login(
+	@PostMapping(value = "/login", produces = "application/json")
+	public Map login(
 		@RequestParam("username") final String username,
 		@RequestParam("password") final String password) {
-		return authenticationService.login(username, password)
-			.orElseThrow(() -> new RuntimeException("invalid login and/or password"));
+		return Collections.singletonMap("token", authenticationService.login(username, password)
+			.orElseThrow(() -> new RuntimeException("invalid login and/or password")));
 	}
 }

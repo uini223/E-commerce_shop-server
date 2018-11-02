@@ -24,7 +24,11 @@ public class UUIDAuthenticationService implements UserAuthenticationService {
 		User user = userRepository.findUserByLogin(username);
 		if(user.isPasswordCorrect((password))) {
 			String uuid = UUID.randomUUID().toString();
-			userTokens.put(uuid, new UserDetailsDTO(user.getId(), username, password, uuid));
+			UserDetailsDTO userDetails = new UserDetailsDTO(user.getId(), username, password, uuid);
+			if(userTokens.values().contains(userDetails)) {
+				return Optional.empty();
+			}
+			userTokens.put(uuid, userDetails);
 			return Optional.of(uuid);
 		}
 		return Optional.empty();
