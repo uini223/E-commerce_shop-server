@@ -25,9 +25,13 @@ public class UUIDAuthenticationService implements UserAuthenticationService {
 		if(user.isPasswordCorrect((password))) {
 			String uuid = UUID.randomUUID().toString();
 			UserDetailsDTO userDetails = new UserDetailsDTO(user.getId(), username, password, uuid);
-			if(userTokens.values().contains(userDetails)) {
-				return Optional.empty();
+			Optional<UserDetailsDTO> duplicatedUser =
+				userTokens.values().stream().filter(userDetails::equals).findAny();
+
+			if(duplicatedUser.isPresent()) {
+				return Optional.of(duplicatedUser.get().getUUID());
 			}
+
 			userTokens.put(uuid, userDetails);
 			return Optional.of(uuid);
 		}
