@@ -16,6 +16,9 @@ public class UserDTO implements Serializable {
         this.password = password;
     }
 
+    public UserDTO() {
+    }
+
     public long getId() {
         return id;
     }

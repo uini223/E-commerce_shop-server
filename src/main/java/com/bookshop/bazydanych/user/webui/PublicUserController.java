@@ -2,9 +2,10 @@ package com.bookshop.bazydanych.user.webui;
 
 import com.bookshop.bazydanych.security.UserAuthenticationService;
 import com.bookshop.bazydanych.user.application.UserSecurityService;
+import com.bookshop.bazydanych.user.readmodel.UserDTO;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
@@ -24,18 +25,14 @@ public class PublicUserController {
 	}
 
 	@PostMapping("/register")
-	public Map register(
-		@RequestParam("username") final String username,
-		@RequestParam("password") final String password) {
-		userSecurityService.addNewUser(username, password);
-		return login(username, password);
+	public Map register(@RequestBody UserDTO user) {
+		userSecurityService.addNewUser(user.getLogin(), user.getPassword());
+		return login(user);
 	}
 
-	@PostMapping(value = "/login", produces = "application/json")
-	public Map login(
-		@RequestParam("username") final String username,
-		@RequestParam("password") final String password) {
-		return Collections.singletonMap("token", authenticationService.login(username, password)
+	@PostMapping(value = "/login")
+	public Map login(@RequestBody final UserDTO user) {
+		return Collections.singletonMap("token", authenticationService.login(user.getLogin(), user.getPassword())
 			.orElseThrow(() -> new RuntimeException("invalid login and/or password")));
 	}
 }
