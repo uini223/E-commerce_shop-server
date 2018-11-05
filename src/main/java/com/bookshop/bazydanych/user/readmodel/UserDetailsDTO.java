@@ -23,8 +23,10 @@ public class UserDetailsDTO implements UserDetails {
 		this.UUID = uuid;
 	}
 
+    public UserDetailsDTO() {
+    }
 
-	@JsonIgnore
+    @JsonIgnore
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return new ArrayList<>();
@@ -91,4 +93,14 @@ public class UserDetailsDTO implements UserDetails {
 					   .build();
 		} else return false;
 	}
+
+    @Override
+    public String toString() {
+        return "UserDetailsDTO{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", UUID='" + UUID + '\'' +
+                '}';
+    }
 }
