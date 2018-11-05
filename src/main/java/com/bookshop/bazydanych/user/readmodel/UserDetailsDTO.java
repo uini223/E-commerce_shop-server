@@ -93,14 +93,4 @@ public class UserDetailsDTO implements UserDetails {
 					   .build();
 		} else return false;
 	}
-
-    @Override
-    public String toString() {
-        return "UserDetailsDTO{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", UUID='" + UUID + '\'' +
-                '}';
-    }
 }
