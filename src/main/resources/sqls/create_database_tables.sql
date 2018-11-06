@@ -2,7 +2,7 @@
 drop table if exists shops cascade;
 create table shops (
   id bigserial primary key,
-  shop_name varchar(20) not null,
+  name varchar(20) not null,
   owner_name varchar(50) not null,
   creation_date date not null default current_date
 );

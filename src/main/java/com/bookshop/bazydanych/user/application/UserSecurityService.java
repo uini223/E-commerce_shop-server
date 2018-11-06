@@ -15,7 +15,13 @@ public class UserSecurityService {
 	}
 
 	public void addNewUser(String username, String password) {
-		User user = new User(username, password);
-		userRepository.save(user);
+		User user = userRepository.findUserByLogin(username);
+		if(user == null) {
+			User newUser = new User(username, password);
+			userRepository.save(newUser);
+		} else {
+			throw new RuntimeException("User already exists !");
+		}
+
 	}
 }
