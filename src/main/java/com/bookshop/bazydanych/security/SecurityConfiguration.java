@@ -100,7 +100,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	CorsFilter corsFilter() {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowCredentials(true);
+//		config.setAllowCredentials(true);
 		config.addAllowedOrigin("*"); // @Value: http://localhost:8080
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("*");
