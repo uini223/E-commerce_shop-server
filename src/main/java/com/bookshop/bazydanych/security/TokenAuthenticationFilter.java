@@ -29,7 +29,7 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingF
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
     	if (Optional.ofNullable(request.getHeader(ORIGIN)).isPresent()) {
 			String origin = request.getHeader(ORIGIN);
-			response.addHeader("Access-Control-Allow-Origin", origin);
+//			response.addHeader("Access-Control-Allow-Origin", "*");
 			response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
 			response.addHeader("Access-Control-Allow-Credentials", "true");
 			response.addHeader("Access-Control-Allow-Headers",

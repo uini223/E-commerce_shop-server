@@ -24,3 +24,12 @@ VALUES ('gowna','gunfo');
 
 INSERT INTO products(name, unit, producent, stock, status, price, description,currency_id,platform_id,category_id)
 VALUES ('dupa', 'kg', 'Dupsko', 20, '1', 1.0, '1',1,1,1);
+
+INSERT INTO products(name, unit, producent, stock, status, price, description,currency_id,platform_id,category_id)
+VALUES ('test', 'kg', 'Dupsko', 20, '1', 1.0, '1',1,1,1);
+
+INSERT INTO products(name, unit, producent, stock, status, price, description,currency_id,platform_id,category_id)
+VALUES ('karta', 'kg', 'Dupsko', 20, '1', 1.0, '1',1,1,1);
+
+INSERT INTO products(name, unit, producent, stock, status, price, description,currency_id,platform_id,category_id)
+VALUES ('emil ma małego', 'kg', 'Dupsko', 20, '1', 1.0, '1',1,1,1);
