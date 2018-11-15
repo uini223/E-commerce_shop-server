@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.Optional;
 
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
-import static com.google.common.net.HttpHeaders.ORIGIN;
 
 public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
@@ -27,15 +26,6 @@ public class TokenAuthenticationFilter extends AbstractAuthenticationProcessingF
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
-    	if (Optional.ofNullable(request.getHeader(ORIGIN)).isPresent()) {
-			String origin = request.getHeader(ORIGIN);
-//			response.addHeader("Access-Control-Allow-Origin", "*");
-			response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-			response.addHeader("Access-Control-Allow-Credentials", "true");
-			response.addHeader("Access-Control-Allow-Headers",
-				request.getHeader("Access-Control-Request-Headers"));
-		}
-
 		final String param = Optional.ofNullable(request.getHeader(AUTHORIZATION))
                 .orElse(request.getParameter("t"));
 

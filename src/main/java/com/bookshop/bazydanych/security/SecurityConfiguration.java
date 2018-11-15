@@ -30,7 +30,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
-        new AntPathRequestMatcher("/**")
+        new AntPathRequestMatcher("/public/**")
     );
 
     private static final RequestMatcher PROECTED_URLS = new NegatedRequestMatcher(PUBLIC_URLS);
@@ -54,7 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.cors().and()
 			.sessionManagement()
 			.sessionCreationPolicy(STATELESS)
 			.and()
@@ -62,12 +62,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.defaultAuthenticationEntryPointFor(forbiddenEntryPoint(), PROECTED_URLS)
 			.and()
 			.authenticationProvider(provider)
-			.addFilterBefore(restAuthenticationFilter(), AnonymousAuthenticationFilter.class)
 			.authorizeRequests()
 			.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 			.requestMatchers(PROECTED_URLS)
 			.authenticated()
 			.and()
+			.addFilterAfter(restAuthenticationFilter(), AnonymousAuthenticationFilter.class)
 			.csrf().disable()
 			.formLogin().disable()
 			.httpBasic().disable()
@@ -101,7 +101,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.addAllowedOrigin("*"); // @Value: http://localhost:8080
+		config.addAllowedOrigin("http://localhost:8081"); // @Value: http://localhost:8080
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("*");
 		source.registerCorsConfiguration("/**", config);
@@ -110,6 +110,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	AuthenticationEntryPoint forbiddenEntryPoint() {
-		return new HttpStatusEntryPoint(HttpStatus.FORBIDDEN);
+		return new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED);
 	}
 }
