@@ -2,6 +2,8 @@ package com.bookshop.bazydanych.location;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LocationService {
 
@@ -15,5 +17,9 @@ public class LocationService {
 		Location newLocation = new Location(location.getCity(), location.getStreet(), location.getPostCode(),
 			location.getPhoneNumber());
 		locationRepository.save(newLocation);
+	}
+
+	public List<Location> getAll() {
+		return locationRepository.findAll();
 	}
 }
