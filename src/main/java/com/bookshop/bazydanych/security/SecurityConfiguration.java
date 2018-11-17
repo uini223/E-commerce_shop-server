@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         new AntPathRequestMatcher("/public/**")
     );
 
-    private static final RequestMatcher PROECTED_URLS = new NegatedRequestMatcher(PUBLIC_URLS);
+    private static final RequestMatcher PROTECTED_URLS = new NegatedRequestMatcher(PUBLIC_URLS);
 
     private TokenAuthenticationProvider provider;
 
@@ -59,12 +59,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.sessionCreationPolicy(STATELESS)
 			.and()
 			.exceptionHandling()
-			.defaultAuthenticationEntryPointFor(forbiddenEntryPoint(), PROECTED_URLS)
+			.defaultAuthenticationEntryPointFor(forbiddenEntryPoint(), PROTECTED_URLS)
 			.and()
 			.authenticationProvider(provider)
 			.authorizeRequests()
 			.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-			.requestMatchers(PROECTED_URLS)
+			.requestMatchers(PROTECTED_URLS)
 			.authenticated()
 			.and()
 			.addFilterAfter(restAuthenticationFilter(), AnonymousAuthenticationFilter.class)
@@ -76,7 +76,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
 	TokenAuthenticationFilter restAuthenticationFilter() throws Exception {
-		final TokenAuthenticationFilter filter = new TokenAuthenticationFilter(PROECTED_URLS);
+		final TokenAuthenticationFilter filter = new TokenAuthenticationFilter(PROTECTED_URLS);
 		filter.setAuthenticationManager(authenticationManager());
 		filter.setAuthenticationSuccessHandler(successHandler());
 		return filter;
