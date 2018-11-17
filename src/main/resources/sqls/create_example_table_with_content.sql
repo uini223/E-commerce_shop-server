@@ -1,16 +1,19 @@
-create table example_users(
-  id bigserial primary key,
-  name varchar(30) not null
-);
-insert into example_users(name)
-    values ('emil');
-insert into example_users(name)
-    values ('ramon');
+-- create table example_users(
+--   id bigserial primary key,
+--   name varchar(30) not null
+-- );
+-- insert into example_users(name)
+--     values ('emil');
+-- insert into example_users(name)
+--     values ('ramon');
+
+INSERT INTO users(login, password,role,customer_id)
+VALUES ('ramon','ramon','ADMIN',null) ;
 
 INSERT INTO locations(city,street,post_code,phone_number)
 VALUES ('dupsko','dupna','0','123123123');
 
-INSERT INTO shops(shop_name, owner_name)
+INSERT INTO shops(name, owner_name)
 VALUES ('gowny sklep','ramon');
 
 INSERT INTO platforms(name, status, shop_id, location_id)

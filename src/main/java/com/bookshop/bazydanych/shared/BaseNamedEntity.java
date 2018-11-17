@@ -12,6 +12,10 @@ public abstract class BaseNamedEntity extends BaseEntity {
     public BaseNamedEntity() {
     }
 
+    public BaseNamedEntity(String name){
+        this.name=name;
+    }
+
     public BaseNamedEntity(long id, String name) {
         super(id);
         this.name = name;
