@@ -1,8 +1,6 @@
 package com.bookshop.bazydanych.product;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,5 +17,10 @@ public class ProductController {
     @GetMapping("/all")
     public List<Product> getAll() {
         return productService.getAllProducts();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteProduct(@PathVariable Long id){
+        productService.deleteProduct(id);
     }
 }
