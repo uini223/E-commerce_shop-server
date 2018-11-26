@@ -1,5 +1,6 @@
 package com.bookshop.bazydanych.product;
 
+import com.bookshop.bazydanych.category.Category;
 import com.bookshop.bazydanych.currency.Currency;
 import com.bookshop.bazydanych.shared.BaseNamedEntity;
 
@@ -30,15 +31,8 @@ public class Product extends BaseNamedEntity {
     @ManyToOne
     private Currency currency;
 
-    public Product(String name, String unit, String producent, Integer stock, Double price, String description, Currency currency) {
-        super(name);
-        this.unit = unit;
-        this.producent = producent;
-        this.stock = stock;
-        this.price = price;
-        this.description = description;
-        this.currency = currency;
-    }
+    @ManyToOne
+    private Category category;
 
     public Product(){}
 
@@ -64,5 +58,9 @@ public class Product extends BaseNamedEntity {
 
     public Currency getCurrency() {
         return currency;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 }

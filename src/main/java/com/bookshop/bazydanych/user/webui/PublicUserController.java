@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
+import java.util.Map;
+
 @RestController
 @RequestMapping("public/users")
 public class PublicUserController {
@@ -26,15 +29,16 @@ public class PublicUserController {
 	}
 
 	@PostMapping("/register")
-	public String register(@RequestBody UserDTO user) {
+	public Map register(@RequestBody UserDTO user) {
 		userSecurityService.addNewUser(user.getLogin(), user.getPassword());
 		return login(user);
 	}
 
 	@PostMapping(value = "/login")
-	public String login(@RequestBody final UserDTO user) {
-		LOGGER.debug("Login request !");
-		return authenticationService.login(user.getLogin(), user.getPassword())
-			.orElseThrow(() -> new RuntimeException("invalid login and/or password"));
+	public Map login(@RequestBody final UserDTO user) {
+		LOGGER.info(user.toString());
+		LOGGER.info("Login request !");
+		return Collections.singletonMap("token", authenticationService.login(user.getLogin(), user.getPassword())
+			.orElseThrow(() -> new RuntimeException("invalid login and/or password")));
 	}
 }
