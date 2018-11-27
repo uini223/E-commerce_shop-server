@@ -34,6 +34,17 @@ public class Product extends BaseNamedEntity {
     @ManyToOne
     private Category category;
 
+    public Product(String name, String unit, String producent, Integer stock, Double price, String description, Currency currency, Category category) {
+        super(name);
+        this.unit = unit;
+        this.producent = producent;
+        this.stock = stock;
+        this.price = price;
+        this.description = description;
+        this.currency = currency;
+        this.category = category;
+    }
+
     public Product(){}
 
     public String getUnit() {
