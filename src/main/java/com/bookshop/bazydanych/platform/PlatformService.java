@@ -20,4 +20,8 @@ public class PlatformService {
     public void addPlatform(Platform platform){
         platformRepository.save(platform);
     }
+
+    public Platform getPlatform(Long id){
+        return platformRepository.findById(id).get();
+    }
 }

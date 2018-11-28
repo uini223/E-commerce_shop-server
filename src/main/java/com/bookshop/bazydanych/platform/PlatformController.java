@@ -23,4 +23,9 @@ public class PlatformController {
     public void addPlatform(@RequestBody Platform platform){
         platformService.addPlatform(platform);
     }
+
+    @GetMapping("/{id}")
+    public Platform getPlatform(@PathVariable Long id){
+        return platformService.getPlatform(id);
+    }
 }

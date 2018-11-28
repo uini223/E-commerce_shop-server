@@ -23,4 +23,9 @@ public class CurrencyController {
     public void addCurrency(@RequestBody Currency currency){
         currencyService.addCurrency(currency);
     }
+
+    @GetMapping("/{id}")
+    public Currency getCurrency(@PathVariable Long id){
+        return currencyService.getCurrency(id);
+    }
 }

@@ -2,6 +2,7 @@ package com.bookshop.bazydanych.product;
 
 import com.bookshop.bazydanych.category.Category;
 import com.bookshop.bazydanych.currency.Currency;
+import com.bookshop.bazydanych.platform.Platform;
 import com.bookshop.bazydanych.shared.BaseNamedEntity;
 
 import javax.persistence.Column;
@@ -26,6 +27,9 @@ public class Product extends BaseNamedEntity {
     private Double price;
 
     @Column
+    private String status;
+
+    @Column
     private String description;
 
     @ManyToOne
@@ -34,15 +38,20 @@ public class Product extends BaseNamedEntity {
     @ManyToOne
     private Category category;
 
-    public Product(String name, String unit, String producent, Integer stock, Double price, String description, Currency currency, Category category) {
+    @ManyToOne
+    private Platform platform;
+
+    public Product(String name, String unit, String producent, Integer stock, Double price, String status, String description, Currency currency, Category category, Platform platform) {
         super(name);
         this.unit = unit;
         this.producent = producent;
         this.stock = stock;
         this.price = price;
+        this.status = status;
         this.description = description;
         this.currency = currency;
         this.category = category;
+        this.platform = platform;
     }
 
     public Product(){}
@@ -63,6 +72,10 @@ public class Product extends BaseNamedEntity {
         return price;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -74,4 +87,9 @@ public class Product extends BaseNamedEntity {
     public Category getCategory() {
         return category;
     }
+
+    public Platform getPlatform() {
+        return platform;
+    }
+
 }

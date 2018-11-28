@@ -16,4 +16,8 @@ public class CategoryService {
 	public List<Category> getAllCategories() {
 		return categoryRepository.findAll();
 	}
+
+	public Category getCategory(Long id){
+		return categoryRepository.findById(id).get();
+	}
 }
