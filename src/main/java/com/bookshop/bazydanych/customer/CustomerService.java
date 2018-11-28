@@ -4,7 +4,6 @@ import com.bookshop.bazydanych.location.Location;
 import com.bookshop.bazydanych.location.LocationService;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -22,7 +21,6 @@ public class CustomerService {
 		return customerRepository.findAll();
 	}
 
-	@Transactional
 	public void addCustomer(CustomerDTO customerDTO) {
 		Location location = locationService.getLocationById(customerDTO.getLocationId());
 		customerRepository.save(new Customer.CustomerBuilder()
@@ -31,6 +29,10 @@ public class CustomerService {
 									.withUserId(customerDTO.getUserId())
 									.withLocation(location)
 									.build());
+	}
+
+	public Customer getCustomerByUserId(long userId) {
+		return customerRepository.getByUserId(userId);
 	}
 }
 

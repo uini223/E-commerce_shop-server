@@ -49,7 +49,7 @@ create table customers (
   first_name varchar(30) not null,
   last_name varchar(30) not null,
   location_id bigserial constraint customer__location_fk references locations(id),
-  user_id bigserial constraint customer__user_fk references users(id)
+  user_id bigserial constraint customer__user_fk references users(id) unique
 );
 
 drop table if exists categories cascade;

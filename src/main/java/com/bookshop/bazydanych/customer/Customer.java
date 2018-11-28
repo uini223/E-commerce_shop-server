@@ -49,6 +49,10 @@ public class Customer extends BaseEntity {
 		return location;
 	}
 
+	public long getUserId() {
+		return userId;
+	}
+
 	public static class CustomerBuilder {
 		private Customer customer;
 
