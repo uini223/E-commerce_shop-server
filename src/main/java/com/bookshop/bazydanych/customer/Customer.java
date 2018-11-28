@@ -77,9 +77,7 @@ public class Customer extends BaseEntity {
 		}
 
 		public Customer build() {
-			Customer customerToBuild = customer;
-			customer = new Customer();
-			return customerToBuild;
+			return customer;
 		}
 	}
 }
