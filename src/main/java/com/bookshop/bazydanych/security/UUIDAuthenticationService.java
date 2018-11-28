@@ -2,7 +2,9 @@ package com.bookshop.bazydanych.security;
 
 import com.bookshop.bazydanych.user.User;
 import com.bookshop.bazydanych.user.infrastructure.UserRepository;
+import com.bookshop.bazydanych.user.readmodel.UserAuthData;
 import com.bookshop.bazydanych.user.readmodel.UserDetailsDTO;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -20,22 +22,25 @@ public class UUIDAuthenticationService implements UserAuthenticationService {
 	}
 
 	@Override
-	public Optional<String> login(String username, String password) {
+	public UserAuthData login(String username, String password) {
 		User user = userRepository.findUserByLogin(username);
-		if(user.isPasswordCorrect((password))) {
+		if(user != null && user.isPasswordCorrect((password))) {
 			String uuid = UUID.randomUUID().toString();
 			UserDetailsDTO userDetails = new UserDetailsDTO(user.getId(), username, password, uuid);
+
 			Optional<UserDetailsDTO> duplicatedUser =
 				userTokens.values().stream().filter(userDetails::equals).findAny();
 
 			if(duplicatedUser.isPresent()) {
-				return Optional.of(duplicatedUser.get().getUUID());
+				return new UserAuthData(duplicatedUser.get().getUUID(), user.getRole());
+			} else {
+				userTokens.put(uuid, userDetails);
+				return new UserAuthData(uuid, user.getRole());
 			}
 
-			userTokens.put(uuid, userDetails);
-			return Optional.of(uuid);
+		} else {
+			throw new AuthenticationCredentialsNotFoundException("Invalid username or password");
 		}
-		return Optional.empty();
 	}
 
 	@Override

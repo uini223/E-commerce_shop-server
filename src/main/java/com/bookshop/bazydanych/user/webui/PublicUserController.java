@@ -2,22 +2,16 @@ package com.bookshop.bazydanych.user.webui;
 
 import com.bookshop.bazydanych.security.UserAuthenticationService;
 import com.bookshop.bazydanych.user.application.UserSecurityService;
+import com.bookshop.bazydanych.user.readmodel.UserAuthData;
 import com.bookshop.bazydanych.user.readmodel.UserDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
-import java.util.Map;
-
 @RestController
 @RequestMapping("public/users")
 public class PublicUserController {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(PublicUserController.class);
 
 	private UserAuthenticationService authenticationService;
 	private UserSecurityService userSecurityService;
@@ -29,16 +23,12 @@ public class PublicUserController {
 	}
 
 	@PostMapping("/register")
-	public Map register(@RequestBody UserDTO user) {
+	public void register(@RequestBody UserDTO user) {
 		userSecurityService.addNewUser(user.getLogin(), user.getPassword());
-		return login(user);
 	}
 
 	@PostMapping(value = "/login")
-	public Map login(@RequestBody final UserDTO user) {
-		LOGGER.info(user.toString());
-		LOGGER.info("Login request !");
-		return Collections.singletonMap("token", authenticationService.login(user.getLogin(), user.getPassword())
-			.orElseThrow(() -> new RuntimeException("invalid login and/or password")));
+	public UserAuthData login(@RequestBody final UserDTO user) {
+		return authenticationService.login(user.getLogin(), user.getPassword());
 	}
 }

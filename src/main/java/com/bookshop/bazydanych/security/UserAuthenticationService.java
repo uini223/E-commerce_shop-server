@@ -1,5 +1,6 @@
 package com.bookshop.bazydanych.security;
 
+import com.bookshop.bazydanych.user.readmodel.UserAuthData;
 import com.bookshop.bazydanych.user.readmodel.UserDetailsDTO;
 
 import java.util.Optional;
@@ -9,7 +10,7 @@ public interface UserAuthenticationService {
     /**
      *  Methods logs in with given {@code username} and {@code password}.
      */
-    Optional<String> login(String username, String password);
+    UserAuthData login(String username, String password);
 
     /**
      *  Finds user by it's token

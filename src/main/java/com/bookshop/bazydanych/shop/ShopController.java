@@ -19,7 +19,7 @@ public class ShopController {
 		this.shopRepository = shopRepository;
 	}
 
-	@PostMapping("/create")
+	@PostMapping("/add")
 	public void createShop(@RequestBody Shop shop) {
 		LOGGER.info("Creating new shop instance");
 		shopRepository.save(shop);

@@ -1,14 +1,8 @@
--- create table example_users(
---   id bigserial primary key,
---   name varchar(30) not null
--- );
--- insert into example_users(name)
---     values ('emil');
--- insert into example_users(name)
---     values ('ramon');
+INSERT INTO users(login, password,role)
+VALUES ('ramon','ramon','ADMIN') ;
 
-INSERT INTO users(login, password,role,customer_id)
-VALUES ('ramon','ramon','ADMIN',null) ;
+INSERT INTO users(login, password,role)
+VALUES ('emil','emil','ADMIN') ;
 
 INSERT INTO locations(city,street,post_code,phone_number)
 VALUES ('dupsko','dupna','0','123123123');
