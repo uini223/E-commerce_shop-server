@@ -5,6 +5,8 @@ import com.bookshop.bazydanych.basket.productReservation.ProductReservationId;
 import com.bookshop.bazydanych.basket.productReservation.ProductReservationRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.stream.Collectors;
+
 @Service
 public class BasketService {
 
@@ -15,10 +17,16 @@ public class BasketService {
 	}
 
 	public Basket getBasketForCustomerId(long customerId) {
-		return new Basket(productReservationRepository.getByProductReservationId_CustomerId(customerId));
+		return new Basket(productReservationRepository
+							  .getAllByProductReservationId_CustomerId(customerId).stream()
+							  .map(pr -> new BasketProductDTO(pr.getProductId(), pr.getQuantity()))
+							  .collect(Collectors.toList()));
 	}
 
 	public void addProductToBasket(long customerId, long productId, long quantity) {
+		if(productReservationRepository.getOne(new ProductReservationId(customerId, productId)) != null) {
+			throw new RuntimeException("Product already in basket! Method for update should be used");
+		}
 		productReservationRepository.save(new ProductReservation(customerId, productId, quantity));
 	}
 

@@ -1,22 +1,19 @@
 package com.bookshop.bazydanych.basket;
 
-import com.bookshop.bazydanych.basket.productReservation.ProductReservation;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Basket implements Serializable {
 
-	private List<ProductReservation>  productReservations;
+	private List<BasketProductDTO> products;
 
-	public Basket(List<ProductReservation> productReservations) {
-		this.productReservations = new ArrayList<>();
-		Collections.copy(this.productReservations, productReservations);
+	public Basket(List<BasketProductDTO> products) {
+		this.products = new ArrayList<>();
+		this.products.addAll(products);
 	}
 
-	public List<ProductReservation> getProductReservations() {
-		return productReservations;
+	public List<BasketProductDTO> getProducts() {
+		return products;
 	}
 }

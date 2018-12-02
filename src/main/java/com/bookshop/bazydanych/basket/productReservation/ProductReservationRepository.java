@@ -8,7 +8,7 @@ import java.util.List;
 @Repository
 public interface ProductReservationRepository extends JpaRepository<ProductReservation, ProductReservationId> {
 
-	List<ProductReservation> getByProductReservationId_CustomerId(long customer_id);
+	List<ProductReservation> getAllByProductReservationId_CustomerId(long customer_id);
 
 	void deleteAllByProductReservationId_CustomerId(long customerId);
 }

@@ -23,15 +23,19 @@ public class ProductReservation  {
 		this.quantity = quantity;
 	}
 
+	public void updateQuantity(long quantity) {
+		this.quantity = quantity;
+	}
+
+	public long getProductId() {
+		return productReservationId.getProductId();
+	}
+
 	public long getQuantity() {
 		return quantity;
 	}
 
 	public ProductReservationId getProductReservationId() {
 		return productReservationId;
-	}
-
-	public void updateQuantity(long quantity) {
-		this.quantity = quantity;
 	}
 }
