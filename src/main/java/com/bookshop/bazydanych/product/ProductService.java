@@ -9,6 +9,7 @@ import com.bookshop.bazydanych.platform.PlatformService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -40,5 +41,17 @@ public class ProductService {
 
         Product newProduct = new Product(product.getName(),product.getUnit(),product.getProducent(),product.getStock(),product.getPrice(),product.getStatus(),product.getDescription(),newCurrency,newCategory,newPlatform);
         productRepository.save(newProduct);
+    }
+
+    public void deactivateProduct(Long id){
+        Product productToUpdate = productRepository.getOne(id);
+        productToUpdate.setStatus(Character.toString('0'));
+        productRepository.save(productToUpdate);
+    }
+
+    public List<Product> getActive(){
+        return productRepository.findAll().stream().filter(
+                p -> p.getStatus().equals(Character.toString('1'))
+        ).collect(Collectors.toList());
     }
 }

@@ -28,4 +28,14 @@ public class ProductController {
     public void addProduct(@RequestBody ProductDTO product){
         productService.addProduct(product);
     }
+
+    @DeleteMapping("/deactivate/{id}")
+    public void deactivateProduct(@PathVariable Long id){
+        productService.deactivateProduct(id);
+    }
+
+    @GetMapping("/active")
+    public List<Product> getActive(){
+        return productService.getActive();
+    }
 }

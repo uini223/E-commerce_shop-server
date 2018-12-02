@@ -92,4 +92,7 @@ public class Product extends BaseNamedEntity {
         return platform;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

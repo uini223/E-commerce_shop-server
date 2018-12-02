@@ -1,9 +1,6 @@
 package com.bookshop.bazydanych.category;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,4 +23,14 @@ public class CategoryController {
 	public Category getCategory(@PathVariable Long id){
 		return categoryService.getCategory(id);
 	}
+
+	@PostMapping("/add")
+    public void addCategory(@RequestBody Category category){
+	    categoryService.addCategory(category);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteCategory(@PathVariable Long id){
+	    categoryService.deleteCategory(id);
+    }
 }
