@@ -6,14 +6,16 @@ public class CustomerDTO implements Serializable {
 
 	private String firstName;
 	private String lastName;
+	private long userId;
 	private long locationId;
 
 	public CustomerDTO() {
 	}
 
-	public CustomerDTO(String firstName, String lastName, long locationId) {
+	public CustomerDTO(String firstName, String lastName, long userId, long locationId) {
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.userId = userId;
 		this.locationId = locationId;
 	}
 
@@ -27,5 +29,9 @@ public class CustomerDTO implements Serializable {
 
 	public long getLocationId() {
 		return locationId;
+	}
+
+	public long getUserId() {
+		return userId;
 	}
 }

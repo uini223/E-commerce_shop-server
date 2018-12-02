@@ -18,6 +18,9 @@ public class Customer extends BaseEntity {
 	@Column
 	private String lastName;
 
+	@Column
+	private long userId;
+
 	@OneToOne
 	private Location location;
 
@@ -44,5 +47,41 @@ public class Customer extends BaseEntity {
 
 	public Location getLocation() {
 		return location;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public static class CustomerBuilder {
+		private Customer customer;
+
+		public CustomerBuilder() {
+			customer = new Customer();
+		}
+
+		public CustomerBuilder withFirstName(String firstName) {
+			customer.firstName = firstName;
+			return this;
+		}
+
+		public CustomerBuilder withLastName(String lastName) {
+			customer.lastName = lastName;
+			return this;
+		}
+
+		public CustomerBuilder withUserId(long userId) {
+			customer.userId = userId;
+			return this;
+		}
+
+		public CustomerBuilder withLocation(Location location) {
+			customer.location = location;
+			return this;
+		}
+
+		public Customer build() {
+			return customer;
+		}
 	}
 }

@@ -1,9 +1,17 @@
 package com.bookshop.bazydanych.user;
 
+import com.bookshop.bazydanych.customer.Customer;
 import com.bookshop.bazydanych.shared.BaseEntity;
 import com.bookshop.bazydanych.user.infrastructure.UserRole;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
 
 @Entity
@@ -16,8 +24,9 @@ public class User extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "customer_id")
-    private Long customer_id;
+    @OneToOne(cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+    private Customer customer;
 
     @Column(name = "role")
 	@Enumerated(EnumType.STRING)
@@ -46,11 +55,15 @@ public class User extends BaseEntity {
         return password;
     }
 
-    public Long getCustomer_id() {
-        return customer_id;
-    }
-
     public boolean isPasswordCorrect(String password) {
     	return this.password.contentEquals(password);
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public UserRole getRole() {
+		return role;
 	}
 }

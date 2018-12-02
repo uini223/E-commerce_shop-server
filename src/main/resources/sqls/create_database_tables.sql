@@ -34,22 +34,22 @@ create table platforms (
   location_id bigserial constraint platform__location_fk references locations(id)
 );
 
-drop table if exists customers cascade;
-create table customers (
-  id bigserial primary key,
-  first_name varchar(30) not null,
-  last_name varchar(30) not null,
-  location_id bigserial constraint customer__location_fk references locations(id)
-);
-
 drop table if exists users cascade;
 create table users (
   id bigserial primary key,
   login varchar(30) not null,
   password varchar(30) not null,
   role varchar(30) not null,
-  creation_date date not null default current_date,
-  customer_id bigserial constraint user_customer_fk references customers(id)
+  creation_date date not null default current_date
+);
+
+drop table if exists customers cascade;
+create table customers (
+  id bigserial primary key,
+  first_name varchar(30) not null,
+  last_name varchar(30) not null,
+  location_id bigserial constraint customer__location_fk references locations(id),
+  user_id bigserial constraint customer__user_fk references users(id) unique
 );
 
 drop table if exists categories cascade;
@@ -101,5 +101,5 @@ create table product_orders (
   constraint product_order_pk primary key (product_id, order_id)
 );
 
-alter table users alter column customer_id drop not null;
+-- alter table users alter column customer_id drop not null;
 alter table platforms alter column location_id drop not null;

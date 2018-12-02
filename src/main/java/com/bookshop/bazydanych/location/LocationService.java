@@ -22,4 +22,8 @@ public class LocationService {
 	public List<Location> getAll() {
 		return locationRepository.findAll();
 	}
+
+	public Location getLocationById(long locationId){
+		return locationRepository.getOne(locationId);
+	}
 }
