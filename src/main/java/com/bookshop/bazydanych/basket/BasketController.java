@@ -26,14 +26,14 @@ public class BasketController {
 
 	@PostMapping("/add/customer/{customerId}/product/{productId}")
 	public void addProductToBasket(@PathVariable long customerId, @PathVariable long productId,
-								   @RequestBody long quantity) {
-		basketService.addProductToBasket(customerId, productId, quantity);
+								   @RequestBody Quantity quantity) {
+		basketService.addProductToBasket(customerId, productId, quantity.getQuantity());
 	}
 
 	@PutMapping("/edit/customer/{customerId}/product/{productId}")
 	public void editProductQuantityInBasket(@PathVariable long customerId, @PathVariable long productId,
-											@RequestBody long quantity) {
-		basketService.updateProductQuantityInBasket(customerId, productId, quantity);
+											@RequestBody Quantity quantity) {
+		basketService.updateProductQuantityInBasket(customerId, productId, quantity.getQuantity());
 	}
 
 	@DeleteMapping("/delete/customer/{customerId}/product/{productId}")
