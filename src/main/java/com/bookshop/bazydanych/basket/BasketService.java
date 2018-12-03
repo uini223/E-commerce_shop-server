@@ -25,7 +25,8 @@ public class BasketService {
 	}
 
 	public void addProductToBasket(long customerId, long productId, long quantity) {
-		if(productReservationRepository.getOne(new ProductReservationId(customerId, productId)) != null) {
+		if(productReservationRepository
+			   .getByProductReservationId(new ProductReservationId(customerId, productId)) != null) {
 			throw new RuntimeException("Product already in basket! Method for update should be used");
 		}
 		productReservationRepository.save(new ProductReservation(customerId, productId, quantity));
