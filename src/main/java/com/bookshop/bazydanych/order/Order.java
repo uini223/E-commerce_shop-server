@@ -1,5 +1,6 @@
 package com.bookshop.bazydanych.order;
 
+import com.bookshop.bazydanych.product.ProductQuantityDTO;
 import com.bookshop.bazydanych.shared.BaseEntity;
 
 import javax.persistence.Column;
@@ -34,6 +35,10 @@ public class Order extends BaseEntity {
 	@Column
 	private long customerId;
 
+//	@OneToMany
+//	@JoinColumn(table = "productOrders", name = "customerId")
+//	private List<Long> products;
+
 	private Order() {
 		this.status = OrderStatus.WAITING_FOR_PAYMENT;
 		lastStatusChangeDate = new Date();
@@ -66,6 +71,10 @@ public class Order extends BaseEntity {
 
 	public long getCustomerId() {
 		return customerId;
+	}
+
+	public void addProduct(ProductQuantityDTO product) {
+
 	}
 
 	public static class Builder {

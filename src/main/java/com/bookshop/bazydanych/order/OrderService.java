@@ -1,5 +1,6 @@
 package com.bookshop.bazydanych.order;
 
+import com.bookshop.bazydanych.product.ProductQuantityDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,5 +20,10 @@ public class OrderService {
 
 	public Order getOrderById(long orderId) {
 		return orderRepository.getOne(orderId);
+	}
+
+	public void addProductToOrder(long orderId, ProductQuantityDTO product) {
+		Order order = orderRepository.getOne(orderId);
+		order.addProduct(product);
 	}
 }

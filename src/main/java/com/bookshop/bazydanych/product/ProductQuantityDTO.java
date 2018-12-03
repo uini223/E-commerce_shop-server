@@ -1,11 +1,11 @@
-package com.bookshop.bazydanych.basket;
+package com.bookshop.bazydanych.product;
 
-public class BasketProductDTO {
+public class ProductQuantityDTO {
 
 	private long productId;
 	private long quantity;
 
-	public BasketProductDTO(long productId, long quantity) {
+	public ProductQuantityDTO(long productId, long quantity) {
 		this.productId = productId;
 		this.quantity = quantity;
 	}

@@ -3,6 +3,7 @@ package com.bookshop.bazydanych.basket;
 import com.bookshop.bazydanych.basket.productReservation.ProductReservation;
 import com.bookshop.bazydanych.basket.productReservation.ProductReservationId;
 import com.bookshop.bazydanych.basket.productReservation.ProductReservationRepository;
+import com.bookshop.bazydanych.product.ProductQuantityDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ public class BasketService {
 	public Basket getBasketForCustomerId(long customerId) {
 		return new Basket(productReservationRepository
 							  .getAllByProductReservationId_CustomerId(customerId).stream()
-							  .map(pr -> new BasketProductDTO(pr.getProductId(), pr.getQuantity()))
+							  .map(pr -> new ProductQuantityDTO(pr.getProductId(), pr.getQuantity()))
 							  .collect(Collectors.toList()));
 	}
 
