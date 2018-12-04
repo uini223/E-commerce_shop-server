@@ -1,5 +1,6 @@
 package com.bookshop.bazydanych.basket;
 
+import com.bookshop.bazydanych.order.OrderDTO;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,12 +42,14 @@ public class BasketController {
 		basketService.removeProductFromBasket(customerId, productId);
 	}
 
-	@DeleteMapping("delete/customer/{customerId}")
+	@DeleteMapping("/delete/customer/{customerId}")
 	public void deleteAllProductsFromBasket(@PathVariable long customerId) {
 		basketService.clearCustomerBasket(customerId);
 	}
 
-	public void makeOrderFromBasket() {
-
+	@PostMapping("/order/new")
+	public void makeOrderFromBasket(@RequestBody OrderDTO orderDTO) {
+		basketService.makeOrderFromBasket(orderDTO.getCustomerId(), orderDTO.getPaymentType(),
+			orderDTO.getTransportType());
 	}
 }

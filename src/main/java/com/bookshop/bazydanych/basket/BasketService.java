@@ -3,20 +3,29 @@ package com.bookshop.bazydanych.basket;
 import com.bookshop.bazydanych.basket.productReservation.ProductReservation;
 import com.bookshop.bazydanych.basket.productReservation.ProductReservationId;
 import com.bookshop.bazydanych.basket.productReservation.ProductReservationRepository;
+import com.bookshop.bazydanych.order.Order;
+import com.bookshop.bazydanych.order.OrderService;
+import com.bookshop.bazydanych.order.PaymentType;
+import com.bookshop.bazydanych.order.TransportType;
 import com.bookshop.bazydanych.product.ProductQuantityDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class BasketService {
 
-	private ProductReservationRepository productReservationRepository;
+	private final ProductReservationRepository productReservationRepository;
+	private final OrderService orderService;
 
-	public BasketService(ProductReservationRepository productReservationRepository) {
+	public BasketService(ProductReservationRepository productReservationRepository, OrderService orderService) {
 		this.productReservationRepository = productReservationRepository;
+		this.orderService = orderService;
 	}
 
+	@Transactional
 	public Basket getBasketForCustomerId(long customerId) {
 		return new Basket(productReservationRepository
 							  .getAllByProductReservationId_CustomerId(customerId).stream()
@@ -24,6 +33,7 @@ public class BasketService {
 							  .collect(Collectors.toList()));
 	}
 
+	@Transactional
 	public void addProductToBasket(long customerId, long productId, long quantity) {
 		if(productReservationRepository
 			   .getByProductReservationId(new ProductReservationId(customerId, productId)) != null) {
@@ -32,10 +42,12 @@ public class BasketService {
 		productReservationRepository.save(new ProductReservation(customerId, productId, quantity));
 	}
 
+	@Transactional
 	public void removeProductFromBasket(long customerId, long productId) {
 		productReservationRepository.deleteById(new ProductReservationId(customerId, productId));
 	}
 
+	@Transactional
 	public void updateProductQuantityInBasket(long customerId, long productId, long quantity) {
 		ProductReservation productReservation = productReservationRepository
 													.getOne(new ProductReservationId(customerId, productId));
@@ -43,7 +55,17 @@ public class BasketService {
 		productReservationRepository.save(productReservation);
 	}
 
+	@Transactional
 	public void clearCustomerBasket(long customerId) {
 		productReservationRepository.deleteAllByProductReservationId_CustomerId(customerId);
+	}
+
+	@Transactional
+	public void makeOrderFromBasket(long customerId, PaymentType paymentType, TransportType transportType) {
+		List<ProductQuantityDTO> products = getBasketForCustomerId(customerId).getProducts();
+		Order order = orderService.createOrder(customerId, paymentType, transportType);
+		products.forEach(product -> orderService.addProductToOrder(order.getId(), product.getProductId(),
+			product.getQuantity()));
+		clearCustomerBasket(customerId);
 	}
 }

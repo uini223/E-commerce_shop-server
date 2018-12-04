@@ -1,17 +1,22 @@
 package com.bookshop.bazydanych.order;
 
+import com.bookshop.bazydanych.order.productOrders.ProductOrder;
+import com.bookshop.bazydanych.order.productOrders.ProductOrderRepository;
 import com.bookshop.bazydanych.product.ProductQuantityDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
 
-	private OrderRepository orderRepository;
+	private final OrderRepository orderRepository;
+	private final ProductOrderRepository productOrderRepository;
 
-	public OrderService(OrderRepository orderRepository) {
+	public OrderService(OrderRepository orderRepository, ProductOrderRepository productOrderRepository) {
 		this.orderRepository = orderRepository;
+		this.productOrderRepository = productOrderRepository;
 	}
 
 	public List<Order> getAllOrders() {
@@ -19,11 +24,28 @@ public class OrderService {
 	}
 
 	public Order getOrderById(long orderId) {
-		return orderRepository.getOne(orderId);
+		return orderRepository.getById(orderId);
 	}
 
-	public void addProductToOrder(long orderId, ProductQuantityDTO product) {
-		Order order = orderRepository.getOne(orderId);
-		order.addProduct(product);
+	public List<ProductQuantityDTO> getOrderProducts(long orderId) {
+		return productOrderRepository.getAllByProductOrderId_OrderId(orderId).stream()
+				   .map(productOrder -> new ProductQuantityDTO(productOrder.getProductId(), productOrder.getQuantity()))
+				   .collect(Collectors.toList());
+	}
+
+	public void addProductToOrder(long orderId, long productId, long quantity) {
+		productOrderRepository.save(new ProductOrder(orderId, productId, quantity));
+	}
+
+	public Order createOrder(long customerId, PaymentType paymentType, TransportType transportType) {
+		return orderRepository.save(new Order.Builder()
+								 .withCustomerId(customerId)
+								 .withPaymentType(paymentType)
+								 .withTransportType(transportType)
+								 .build());
+	}
+
+	public List<Order> getCustomerOrders(long customerId) {
+		return orderRepository.getAllByCustomerId(customerId);
 	}
 }
