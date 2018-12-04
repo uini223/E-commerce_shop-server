@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 public class ProductDTO implements Serializable {
 
-    private Long id;
+	private static final long serialVersionUID = 4603576581112999592L;
+
+	private Long id;
     private String name;
     private String producent;
     private String unit;

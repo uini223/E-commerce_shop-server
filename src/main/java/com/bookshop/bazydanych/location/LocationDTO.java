@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class LocationDTO implements Serializable {
 
+	private static final long serialVersionUID = 8966108045899153404L;
 
 	private String city;
 	private String street;

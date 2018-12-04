@@ -11,6 +11,8 @@ import java.util.Collection;
 
 public class UserDetailsDTO implements UserDetails {
 
+	private static final long serialVersionUID = -5938391816736363631L;
+
 	private long id;
 	private String username;
 	private String password;

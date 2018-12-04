@@ -1,6 +1,10 @@
 package com.bookshop.bazydanych.product;
 
-public class ProductQuantityDTO {
+import java.io.Serializable;
+
+public class ProductQuantityDTO implements Serializable {
+
+	private static final long serialVersionUID = -8242777131607987817L;
 
 	private long productId;
 	private long quantity;
