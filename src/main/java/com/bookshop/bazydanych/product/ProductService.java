@@ -54,4 +54,8 @@ public class ProductService {
                 p -> p.getStatus().equals(Character.toString('1'))
         ).collect(Collectors.toList());
     }
+
+    public Product getProduct(long id) {
+        return productRepository.getById(id);
+    }
 }
