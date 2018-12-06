@@ -7,7 +7,8 @@ import com.bookshop.bazydanych.order.Order;
 import com.bookshop.bazydanych.order.OrderService;
 import com.bookshop.bazydanych.order.PaymentType;
 import com.bookshop.bazydanych.order.TransportType;
-import com.bookshop.bazydanych.product.ProductQuantityDTO;
+import com.bookshop.bazydanych.product.ProductService;
+import com.bookshop.bazydanych.product.ProductSimpleDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,17 +20,20 @@ public class BasketService {
 
 	private final ProductReservationRepository productReservationRepository;
 	private final OrderService orderService;
+	private final ProductService productService;
 
-	public BasketService(ProductReservationRepository productReservationRepository, OrderService orderService) {
+	public BasketService(ProductReservationRepository productReservationRepository, OrderService orderService, ProductService productService) {
 		this.productReservationRepository = productReservationRepository;
 		this.orderService = orderService;
+		this.productService = productService;
 	}
 
 	@Transactional
 	public Basket getBasketForCustomerId(long customerId) {
-		return new Basket(productReservationRepository
-							  .getAllByProductReservationId_CustomerId(customerId).stream()
-							  .map(pr -> new ProductQuantityDTO(pr.getProductId(), pr.getQuantity()))
+		return new Basket(productReservationRepository.getAllByProductReservationId_CustomerId(customerId).stream()
+							  .map(pr -> new ProductSimpleDTO(pr.getProductId(), pr.getProduct().getName(),
+								  pr.getProduct().getUnit(), pr.getProduct().getStock(), pr.getProduct().getPrice(),
+								  pr.getQuantity()))
 							  .collect(Collectors.toList()));
 	}
 
@@ -62,9 +66,9 @@ public class BasketService {
 
 	@Transactional
 	public void makeOrderFromBasket(long customerId, PaymentType paymentType, TransportType transportType) {
-		List<ProductQuantityDTO> products = getBasketForCustomerId(customerId).getProducts();
+		List<ProductSimpleDTO> products = getBasketForCustomerId(customerId).getProducts();
 		Order order = orderService.createOrder(customerId, paymentType, transportType);
-		products.forEach(product -> orderService.addProductToOrder(order.getId(), product.getProductId(),
+		products.forEach(product -> orderService.addProductToOrder(order.getId(), product.getId(),
 			product.getQuantity()));
 		clearCustomerBasket(customerId);
 	}

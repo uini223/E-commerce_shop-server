@@ -1,8 +1,12 @@
 package com.bookshop.bazydanych.basket.productReservation;
 
+import com.bookshop.bazydanych.product.Product;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,6 +18,10 @@ public class ProductReservation  {
 
 	@Column
 	private long quantity;
+
+	@ManyToOne
+	@JoinColumn(name = "productId", insertable = false, updatable = false)
+	private Product product;
 
 	public ProductReservation() {
 	}
@@ -37,5 +45,9 @@ public class ProductReservation  {
 
 	public ProductReservationId getProductReservationId() {
 		return productReservationId;
+	}
+
+	public Product getProduct() {
+		return product;
 	}
 }

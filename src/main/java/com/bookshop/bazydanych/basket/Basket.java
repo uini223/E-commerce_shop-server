@@ -1,6 +1,6 @@
 package com.bookshop.bazydanych.basket;
 
-import com.bookshop.bazydanych.product.ProductQuantityDTO;
+import com.bookshop.bazydanych.product.ProductSimpleDTO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,14 +8,14 @@ import java.util.List;
 
 public class Basket implements Serializable {
 
-	private List<ProductQuantityDTO> products;
+	private List<ProductSimpleDTO> products;
 
-	public Basket(List<ProductQuantityDTO> products) {
+	public Basket(List<ProductSimpleDTO> products) {
 		this.products = new ArrayList<>();
 		this.products.addAll(products);
 	}
 
-	public List<ProductQuantityDTO> getProducts() {
+	public List<ProductSimpleDTO> getProducts() {
 		return products;
 	}
 }

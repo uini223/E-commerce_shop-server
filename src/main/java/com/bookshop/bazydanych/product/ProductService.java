@@ -8,6 +8,7 @@ import com.bookshop.bazydanych.platform.Platform;
 import com.bookshop.bazydanych.platform.PlatformService;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,10 @@ public class ProductService {
         Product productToUpdate = productRepository.getOne(id);
         productToUpdate.setStatus(Character.toString('0'));
         productRepository.save(productToUpdate);
+    }
+
+    public List<Product> getProductsByIds(Collection<Long> ids) {
+        return productRepository.getAllByIdIn(ids);
     }
 
     public List<Product> getActive(){
