@@ -10,7 +10,7 @@ public interface UserAuthenticationService {
     /**
      *  Methods logs in with given {@code username} and {@code password}.
      */
-    UserAuthData login(String username, String password);
+    UserAuthData login(String username, String password, Long id);
 
     /**
      *  Finds user by it's token

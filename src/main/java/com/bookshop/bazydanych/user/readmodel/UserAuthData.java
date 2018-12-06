@@ -10,10 +10,12 @@ public class UserAuthData implements Serializable {
 
 	private String token;
 	private UserRole userRole;
+	private Long userid;
 
-	public UserAuthData(String token, UserRole userRole) {
+	public UserAuthData(String token, UserRole userRole, Long userid) {
 		this.token = token;
 		this.userRole = userRole;
+		this.userid = userid;
 	}
 
 	public String getToken() {
@@ -22,5 +24,9 @@ public class UserAuthData implements Serializable {
 
 	public UserRole getUserRole() {
 		return userRole;
+	}
+
+	public Long getUserid() {
+		return userid;
 	}
 }

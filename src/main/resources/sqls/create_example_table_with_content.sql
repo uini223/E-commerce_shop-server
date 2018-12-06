@@ -5,10 +5,10 @@ INSERT INTO users(login, password,role)
 VALUES ('emil','emil','ADMIN') ;
 
 INSERT INTO locations(city,street,post_code,phone_number)
-VALUES ('dupsko','dupna','0','123123123');
+VALUES ('Poznan','Ulica','0','123123123');
 
 INSERT INTO shops(name, owner_name)
-VALUES ('gowny sklep','ramon');
+VALUES ('Bookstore','ramon');
 
 INSERT INTO platforms(name, status, shop_id, location_id)
 VALUES ('Main Platform','active',1,1);

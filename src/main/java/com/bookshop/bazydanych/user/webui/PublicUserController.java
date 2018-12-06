@@ -29,6 +29,6 @@ public class PublicUserController {
 
 	@PostMapping(value = "/login")
 	public UserAuthData login(@RequestBody final UserDTO user) {
-		return authenticationService.login(user.getLogin(), user.getPassword());
+		return authenticationService.login(user.getLogin(), user.getPassword(), user.getId());
 	}
 }

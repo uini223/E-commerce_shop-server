@@ -22,7 +22,7 @@ public class UUIDAuthenticationService implements UserAuthenticationService {
 	}
 
 	@Override
-	public UserAuthData login(String username, String password) {
+	public UserAuthData login(String username, String password, Long id) {
 		User user = userRepository.findUserByLogin(username);
 		if(user != null && user.isPasswordCorrect((password))) {
 			String uuid = UUID.randomUUID().toString();
@@ -32,10 +32,10 @@ public class UUIDAuthenticationService implements UserAuthenticationService {
 				userTokens.values().stream().filter(userDetails::equals).findAny();
 
 			if(duplicatedUser.isPresent()) {
-				return new UserAuthData(duplicatedUser.get().getUUID(), user.getRole());
+				return new UserAuthData(duplicatedUser.get().getUUID(), user.getRole(), user.getId());
 			} else {
 				userTokens.put(uuid, userDetails);
-				return new UserAuthData(uuid, user.getRole());
+				return new UserAuthData(uuid, user.getRole(), user.getId());
 			}
 
 		} else {

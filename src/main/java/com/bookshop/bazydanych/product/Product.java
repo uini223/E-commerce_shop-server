@@ -9,10 +9,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name="products")
-public class Product extends BaseNamedEntity {
+public class Product extends BaseNamedEntity implements Serializable {
 
     @Column
     private String unit;

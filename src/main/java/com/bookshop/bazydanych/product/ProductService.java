@@ -60,7 +60,7 @@ public class ProductService {
         ).collect(Collectors.toList());
     }
 
-    public Product getProduct(long id) {
-        return productRepository.getById(id);
+    public Product getbyId(Long id){
+        return productRepository.getOne(id);
     }
 }
