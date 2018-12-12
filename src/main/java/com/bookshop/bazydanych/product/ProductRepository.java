@@ -12,4 +12,9 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 	Product getById(long id);
 
 	List<Product> getAllByIdIn(Collection<Long> id);
+
+	List<Product> getAllByCategoryId(Long category_id);
+
+	List<Product> getAllByCurrencyId(Long currency_id);
+
 }

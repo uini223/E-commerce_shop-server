@@ -28,4 +28,9 @@ public class CurrencyController {
     public Currency getCurrency(@PathVariable Long id){
         return currencyService.getCurrency(id);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteCurrencyById(@PathVariable Long id){
+        currencyService.deleteCurrencyById(id);
+    }
 }

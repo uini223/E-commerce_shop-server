@@ -1,5 +1,7 @@
 package com.bookshop.bazydanych.category;
 
+import com.bookshop.bazydanych.product.ProductRepository;
+import com.bookshop.bazydanych.product.ProductService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.List;
 public class CategoryService {
 
 	private CategoryRepository categoryRepository;
+	private ProductService productService;
+	private ProductRepository productRepository;
 
 	public CategoryService(CategoryRepository categoryRepository) {
 		this.categoryRepository = categoryRepository;
@@ -26,6 +30,12 @@ public class CategoryService {
 	}
 
 	public void deleteCategory(Long id){
-		categoryRepository.deleteById(id);
+		if(productRepository.getAllByCategoryId(id).isEmpty()){
+			categoryRepository.deleteById(id);
+		} else {
+			throw new RuntimeException("Category is in use!");
+		}
+
 	}
+
 }
