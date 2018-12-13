@@ -103,3 +103,43 @@ create table product_orders (
 
 -- alter table users alter column customer_id drop not null;
 alter table platforms alter column location_id drop not null;
+
+-- var1 - customer, var2 - tax value
+DROP FUNCTION if exists tax(integer,numeric) ;
+CREATE or REPLACE function tax(var integer, var2 numeric) RETURNS NUMERIC AS $$
+BEGIN
+  RETURN(
+        SELECT SUM(price*quantity+price*quantity*var2) from product_reservations pr , products p WHERE pr.product_id = p.id AND customer_id=var
+  );
+END;
+$$
+  LANGUAGE plpgsql;
+
+SELECT tax(1,0.6);
+
+-- var1 - customer id, var2 -orderid
+drop function if exists create_order(integer,integer);
+create or replace function create_order(var1 integer, var2 integer) returns void as $$
+BEGIN
+  INSERT into product_orders(order_id,product_id,quantity)
+      (SELECT var2,product_id, quantity from product_reservations WHERE customer_id = var1);
+  DELETE from product_reservations
+  WHERE customer_id =var1;
+end;
+$$
+LANGUAGE plpgsql;
+
+SELECT create_order(1,14);
+
+SELECT * from product_orders;
+
+drop index if exists category_idx;
+drop index if exists currency_idx;
+drop index if exists platform_idx;
+drop index if exists product_idx;
+
+CREATE index category_idx on products(category_id);
+CREATE index currency_idx on products(currency_id);
+CREATE index platform_idx on products(platform_id);
+
+CREATE index product_idx on products(id);
