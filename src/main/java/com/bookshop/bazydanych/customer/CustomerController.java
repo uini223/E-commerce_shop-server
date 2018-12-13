@@ -29,10 +29,4 @@ public class CustomerController  {
 		return customerService.getCustomerByUserId(id);
 	}
 
-	@GetMapping("/get/basket/{id}")
-	public Double getCustomerBasketById(@PathVariable long id){
-		return 0.0;
-	}
-
-
 }
