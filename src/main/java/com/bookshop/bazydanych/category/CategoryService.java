@@ -1,7 +1,6 @@
 package com.bookshop.bazydanych.category;
 
 import com.bookshop.bazydanych.product.ProductRepository;
-import com.bookshop.bazydanych.product.ProductService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,12 +9,12 @@ import java.util.List;
 public class CategoryService {
 
 	private CategoryRepository categoryRepository;
-	private ProductService productService;
 	private ProductRepository productRepository;
 
-	public CategoryService(CategoryRepository categoryRepository) {
+	public CategoryService(CategoryRepository categoryRepository, ProductRepository productRepository) {
 		this.categoryRepository = categoryRepository;
-	}
+        this.productRepository = productRepository;
+    }
 
 	public List<Category> getAllCategories() {
 		return categoryRepository.findAll();

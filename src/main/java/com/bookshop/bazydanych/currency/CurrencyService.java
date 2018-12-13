@@ -11,8 +11,9 @@ public class CurrencyService {
     private CurrencyRepository currencyRepository;
     private ProductRepository productRepository;
 
-    public CurrencyService(CurrencyRepository currencyRepository) {
+    public CurrencyService(CurrencyRepository currencyRepository, ProductRepository productRepository) {
         this.currencyRepository = currencyRepository;
+        this.productRepository = productRepository;
     }
 
     public List<Currency> getCurrencies(){
