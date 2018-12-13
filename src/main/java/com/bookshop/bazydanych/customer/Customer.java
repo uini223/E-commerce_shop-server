@@ -1,5 +1,6 @@
 package com.bookshop.bazydanych.customer;
 
+import com.bookshop.bazydanych.location.CustomerLocation;
 import com.bookshop.bazydanych.location.Location;
 import com.bookshop.bazydanych.shared.BaseEntity;
 
@@ -22,12 +23,12 @@ public class Customer extends BaseEntity {
 	private long userId;
 
 	@OneToOne
-	private Location location;
+	private CustomerLocation location;
 
 	public Customer() {
 	}
 
-	public Customer(String firstName, String lastName, Location location) {
+	public Customer(String firstName, String lastName, CustomerLocation location) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.location = location;
@@ -75,7 +76,7 @@ public class Customer extends BaseEntity {
 			return this;
 		}
 
-		public CustomerBuilder withLocation(Location location) {
+		public CustomerBuilder withLocation(CustomerLocation location) {
 			customer.location = location;
 			return this;
 		}

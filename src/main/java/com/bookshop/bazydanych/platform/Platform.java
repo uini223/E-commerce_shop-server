@@ -1,11 +1,13 @@
 package com.bookshop.bazydanych.platform;
 
+import com.bookshop.bazydanych.location.PlatformLocation;
 import com.bookshop.bazydanych.shared.BaseNamedEntity;
 import com.bookshop.bazydanych.shop.Shop;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Date;
 
@@ -22,8 +24,8 @@ public class Platform extends BaseNamedEntity {
     @ManyToOne
     private Shop shop;
 
-//    @OneToOne
-//    private Location location;
+    @OneToOne
+    private PlatformLocation location;
 
 
     public Platform(String name, String status, Date creation_date, Shop shop) {
@@ -45,5 +47,9 @@ public class Platform extends BaseNamedEntity {
 
     public Shop getShop() {
         return shop;
+    }
+
+    public PlatformLocation getLocation() {
+        return location;
     }
 }

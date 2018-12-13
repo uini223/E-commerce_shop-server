@@ -21,14 +21,14 @@ public class CategoryService {
 	}
 
 	public Category getCategory(Long id){
-		return categoryRepository.findById(id).get();
+		return categoryRepository.findById(id).orElseThrow();
 	}
 
 	public void addCategory(Category category){
 		categoryRepository.save(category);
 	}
 
-	public void deleteCategory(Long id){
+	public void deleteCategory(Long id) {
 		if(productRepository.getAllByCategoryId(id).isEmpty()){
 			categoryRepository.deleteById(id);
 		} else {

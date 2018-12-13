@@ -1,6 +1,6 @@
 package com.bookshop.bazydanych.customer;
 
-import com.bookshop.bazydanych.location.Location;
+import com.bookshop.bazydanych.location.CustomerLocation;
 import com.bookshop.bazydanych.location.LocationService;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class CustomerService {
 	}
 
 	public void addCustomer(CustomerDTO customerDTO) {
-		Location location = locationService.getLocationById(customerDTO.getLocationId());
+		CustomerLocation location = locationService.getUserLocationById(customerDTO.getLocationId());
 		customerRepository.save(new Customer.CustomerBuilder()
 									.withFirstName(customerDTO.getFirstName())
 									.withLastName(customerDTO.getLastName())

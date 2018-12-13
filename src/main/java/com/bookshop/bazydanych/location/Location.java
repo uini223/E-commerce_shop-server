@@ -3,12 +3,16 @@ package com.bookshop.bazydanych.location;
 import com.bookshop.bazydanych.shared.BaseEntity;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "locations")
-public class Location extends BaseEntity {
+@Inheritance
+@DiscriminatorColumn
+public abstract class Location extends BaseEntity {
 
 	@Column
 	private String city;

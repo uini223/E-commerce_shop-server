@@ -4,8 +4,14 @@ VALUES ('ramon','ramon','ADMIN') ;
 INSERT INTO users(login, password,role)
 VALUES ('emil','emil','ADMIN') ;
 
-INSERT INTO locations(city,street,post_code,phone_number)
-VALUES ('Poznan','Ulica','0','123123123');
+INSERT INTO locations(city,street,post_code,phone_number, dtype)
+VALUES ('Poznan','Ulica','0','123123123', 'PLATFORM');
+
+INSERT INTO locations(city,street,post_code,phone_number, dtype)
+VALUES ('Lulinek','Ulica','69','123123123', 'CUSTOMER');
+
+INSERT INTO customers(first_name, last_name, location_id, user_id)
+values ('emil', 'bartnik', 2, 2);
 
 INSERT INTO shops(name, owner_name)
 VALUES ('Bookstore','ramon');

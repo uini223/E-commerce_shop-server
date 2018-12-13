@@ -21,6 +21,7 @@ create table locations (
   city varchar(30) not null,
   street varchar(30) not null,
   post_code varchar(10) not null,
+  dtype varchar(50) not null,
   phone_number varchar(15)
 );
 
@@ -101,7 +102,6 @@ create table product_orders (
   constraint product_order_pk primary key (product_id, order_id)
 );
 
--- alter table users alter column customer_id drop not null;
 alter table platforms alter column location_id drop not null;
 
 -- var1 - customer, var2 - tax value
@@ -115,7 +115,7 @@ END;
 $$
   LANGUAGE plpgsql;
 
-SELECT tax(1,0.6);
+-- SELECT tax(1,0.6);
 
 -- var1 - customer id, var2 -orderid
 drop function if exists create_order(integer,integer);
@@ -129,9 +129,7 @@ end;
 $$
 LANGUAGE plpgsql;
 
-SELECT create_order(1,14);
-
-SELECT * from product_orders;
+-- SELECT create_order(1,14);
 
 drop index if exists category_idx;
 drop index if exists currency_idx;

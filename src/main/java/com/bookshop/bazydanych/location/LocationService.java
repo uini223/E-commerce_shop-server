@@ -13,8 +13,8 @@ public class LocationService {
 		this.locationRepository = locationRepository;
 	}
 
-	public void createLocation(LocationDTO location) {
-		Location newLocation = new Location(location.getCity(), location.getStreet(), location.getPostCode(),
+	public void createUserLocation(LocationDTO location) {
+		Location newLocation = new CustomerLocation(location.getCity(), location.getStreet(), location.getPostCode(),
 			location.getPhoneNumber());
 		locationRepository.save(newLocation);
 	}
@@ -23,7 +23,13 @@ public class LocationService {
 		return locationRepository.findAll();
 	}
 
-	public Location getLocationById(long locationId){
-		return locationRepository.getOne(locationId);
+	public CustomerLocation getUserLocationById(long locationId){
+		return locationRepository.getById(locationId);
+	}
+
+	public void createPlatformLocation(LocationDTO location) {
+		Location newLocation = new PlatformLocation(location.getCity(), location.getStreet(), location.getPostCode(),
+			location.getPhoneNumber());
+		locationRepository.save(newLocation);
 	}
 }
