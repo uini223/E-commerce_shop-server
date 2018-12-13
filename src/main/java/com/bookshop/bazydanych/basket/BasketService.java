@@ -7,11 +7,12 @@ import com.bookshop.bazydanych.order.Order;
 import com.bookshop.bazydanych.order.OrderService;
 import com.bookshop.bazydanych.order.PaymentType;
 import com.bookshop.bazydanych.order.TransportType;
-import com.bookshop.bazydanych.product.ProductService;
 import com.bookshop.bazydanych.product.ProductSimpleDTO;
+import com.bookshop.bazydanych.shared.ProcedureRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,12 +21,12 @@ public class BasketService {
 
 	private final ProductReservationRepository productReservationRepository;
 	private final OrderService orderService;
-	private final ProductService productService;
+	private final ProcedureRepository procedureRepository;
 
-	public BasketService(ProductReservationRepository productReservationRepository, OrderService orderService, ProductService productService) {
+	public BasketService(ProductReservationRepository productReservationRepository, OrderService orderService, ProcedureRepository procedureRepository) {
 		this.productReservationRepository = productReservationRepository;
 		this.orderService = orderService;
-		this.productService = productService;
+		this.procedureRepository = procedureRepository;
 	}
 
 	@Transactional
@@ -67,9 +68,14 @@ public class BasketService {
 	@Transactional
 	public void makeOrderFromBasket(long customerId, PaymentType paymentType, TransportType transportType) {
 		List<ProductSimpleDTO> products = getBasketForCustomerId(customerId).getProducts();
+		if(products.isEmpty()) {
+			throw new RuntimeException("Order cannot be empty");
+		}
 		Order order = orderService.createOrder(customerId, paymentType, transportType);
-		products.forEach(product -> orderService.addProductToOrder(order.getId(), product.getId(),
-			product.getQuantity()));
-		clearCustomerBasket(customerId);
+		procedureRepository.moveProductsFromBasketToOrder(customerId, order.getId());
+	}
+
+	public BigDecimal calculatePriceWithTax(long customerId) {
+		return  procedureRepository.getTotalPrice(customerId);
 	}
 }

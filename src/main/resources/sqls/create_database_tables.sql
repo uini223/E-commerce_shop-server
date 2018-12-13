@@ -109,7 +109,10 @@ DROP FUNCTION if exists tax(integer,numeric) ;
 CREATE or REPLACE function tax(var integer, var2 numeric) RETURNS NUMERIC AS $$
 BEGIN
   RETURN(
-        SELECT SUM(price*quantity+price*quantity*var2) from product_reservations pr , products p WHERE pr.product_id = p.id AND customer_id=var
+        SELECT SUM(price*quantity+price*quantity*var2)
+        from product_reservations pr JOIN products p
+                 ON pr.product_id = p.id
+        WHERE customer_id=var
   );
 END;
 $$
@@ -140,5 +143,3 @@ drop index if exists product_idx;
 CREATE index category_idx on products(category_id);
 CREATE index currency_idx on products(currency_id);
 CREATE index platform_idx on products(platform_id);
-
-CREATE index product_idx on products(id);

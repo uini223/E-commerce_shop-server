@@ -1,7 +1,7 @@
 package com.bookshop.bazydanych.order;
 
 import com.bookshop.bazydanych.basket.Quantity;
-import com.bookshop.bazydanych.product.ProductQuantityDTO;
+import com.bookshop.bazydanych.product.ProductSimpleDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +38,7 @@ public class OrderController {
 	}
 
 	@GetMapping("/get/{id}/products")
-	public List<ProductQuantityDTO> getUserOrderProducts(@PathVariable long id) {
+	public List<ProductSimpleDTO> getUserOrderProducts(@PathVariable long id) {
 		return orderService.getOrderProducts(id);
 	}
 

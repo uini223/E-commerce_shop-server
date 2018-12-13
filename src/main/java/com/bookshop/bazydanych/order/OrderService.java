@@ -2,7 +2,7 @@ package com.bookshop.bazydanych.order;
 
 import com.bookshop.bazydanych.order.productOrders.ProductOrder;
 import com.bookshop.bazydanych.order.productOrders.ProductOrderRepository;
-import com.bookshop.bazydanych.product.ProductQuantityDTO;
+import com.bookshop.bazydanych.product.ProductSimpleDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,9 +27,12 @@ public class OrderService {
 		return orderRepository.getById(orderId);
 	}
 
-	public List<ProductQuantityDTO> getOrderProducts(long orderId) {
+	public List<ProductSimpleDTO> getOrderProducts(long orderId) {
 		return productOrderRepository.getAllByProductOrderId_OrderId(orderId).stream()
-				   .map(productOrder -> new ProductQuantityDTO(productOrder.getProductId(), productOrder.getQuantity()))
+				   .map(productOrder -> new ProductSimpleDTO(productOrder.getProductId(),
+					   productOrder.getProduct().getName(), productOrder.getProduct().getUnit(),
+					   productOrder.getProduct().getStock(), productOrder.getProduct().getPrice(),
+					   productOrder.getQuantity()))
 				   .collect(Collectors.toList());
 	}
 

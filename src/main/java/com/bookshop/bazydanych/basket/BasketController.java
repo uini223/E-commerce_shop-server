@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/basket")
 public class BasketController {
@@ -51,5 +53,10 @@ public class BasketController {
 	public void makeOrderFromBasket(@RequestBody OrderDTO orderDTO) {
 		basketService.makeOrderFromBasket(orderDTO.getCustomerId(), orderDTO.getPaymentType(),
 			orderDTO.getTransportType());
+	}
+
+	@GetMapping("/totalPrice/customer/{customerId}")
+	public BigDecimal getTotalPriceWithTax(@PathVariable long customerId) {
+		return basketService.calculatePriceWithTax(customerId);
 	}
 }
