@@ -34,5 +34,6 @@ public class CustomerService {
 	public Customer getCustomerByUserId(long userId) {
 		return customerRepository.getByUserId(userId);
 	}
+
 }
 
