@@ -119,12 +119,13 @@ $$
 
 -- var1 - customer id, var2 -orderid
 drop function if exists create_order(integer,integer);
-create or replace function create_order(var1 integer, var2 integer) returns void as $$
+create or replace function create_order(var1 integer, var2 integer) returns INTEGER as $$
 BEGIN
   INSERT into product_orders(order_id,product_id,quantity)
       (SELECT var2,product_id, quantity from product_reservations WHERE customer_id = var1);
   DELETE from product_reservations
   WHERE customer_id =var1;
+  return 1;
 end;
 $$
 LANGUAGE plpgsql;
