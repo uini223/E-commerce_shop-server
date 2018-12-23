@@ -1,5 +1,7 @@
 package com.bookshop.bazydanych.product;
 
+import com.bookshop.bazydanych.basket.BasketService;
+import com.bookshop.bazydanych.basket.productReservation.ProductReservationRepository;
 import com.bookshop.bazydanych.category.Category;
 import com.bookshop.bazydanych.category.CategoryService;
 import com.bookshop.bazydanych.currency.Currency;
@@ -19,12 +21,16 @@ public class ProductService {
     private CurrencyService currencyService;
     private PlatformService platformService;
     private CategoryService categoryService;
+    private BasketService basketService;
+    private ProductReservationRepository productReservationRepository;
 
-    public ProductService(ProductRepository productRepository, CurrencyService currencyService, PlatformService platformService, CategoryService categoryService) {
+    public ProductService(ProductRepository productRepository, CurrencyService currencyService, PlatformService platformService, CategoryService categoryService, BasketService basketService, ProductReservationRepository productReservationRepository) {
         this.productRepository = productRepository;
         this.currencyService = currencyService;
         this.platformService = platformService;
         this.categoryService = categoryService;
+        this.basketService = basketService;
+        this.productReservationRepository = productReservationRepository;
     }
 
     public List<Product> getAllProducts(){
@@ -47,6 +53,11 @@ public class ProductService {
     public void deactivateProduct(Long id){
         Product productToUpdate = productRepository.getOne(id);
         productToUpdate.setStatus(Character.toString('0'));
+        productReservationRepository.findAll().forEach(a ->{
+            if(a.getProductId() == id){
+                productReservationRepository.deleteById(a.getProductReservationId());
+            }
+        });
         productRepository.save(productToUpdate);
     }
 
@@ -62,5 +73,12 @@ public class ProductService {
 
     public Product getbyId(Long id){
         return productRepository.getById(id);
+    }
+
+    public void updateProduct(Product product){
+        Product productToUpdate = productRepository.getOne(product.getId());
+        productToUpdate = product;
+        productRepository.save(productToUpdate);
+        //TODO dodawanie produktów!
     }
 }
