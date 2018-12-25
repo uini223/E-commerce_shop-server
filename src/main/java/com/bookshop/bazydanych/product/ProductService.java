@@ -6,10 +6,12 @@ import com.bookshop.bazydanych.category.Category;
 import com.bookshop.bazydanych.category.CategoryService;
 import com.bookshop.bazydanych.currency.Currency;
 import com.bookshop.bazydanych.currency.CurrencyService;
+import com.bookshop.bazydanych.order.OrderService;
 import com.bookshop.bazydanych.platform.Platform;
 import com.bookshop.bazydanych.platform.PlatformService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,14 +25,16 @@ public class ProductService {
     private CategoryService categoryService;
     private BasketService basketService;
     private ProductReservationRepository productReservationRepository;
+    private OrderService orderService;
 
-    public ProductService(ProductRepository productRepository, CurrencyService currencyService, PlatformService platformService, CategoryService categoryService, BasketService basketService, ProductReservationRepository productReservationRepository) {
+    public ProductService(ProductRepository productRepository, CurrencyService currencyService, PlatformService platformService, CategoryService categoryService, BasketService basketService, ProductReservationRepository productReservationRepository, OrderService orderService) {
         this.productRepository = productRepository;
         this.currencyService = currencyService;
         this.platformService = platformService;
         this.categoryService = categoryService;
         this.basketService = basketService;
         this.productReservationRepository = productReservationRepository;
+        this.orderService = orderService;
     }
 
     public List<Product> getAllProducts(){
@@ -48,6 +52,10 @@ public class ProductService {
 
         Product newProduct = new Product(product.getName(),product.getUnit(),product.getProducent(),product.getStock(),product.getPrice(),product.getStatus(),product.getDescription(),newCurrency,newCategory,newPlatform);
         productRepository.save(newProduct);
+    }
+
+    public Product getByName(String name){
+        return productRepository.getByName(name);
     }
 
     public void deactivateProduct(Long id){
@@ -75,10 +83,49 @@ public class ProductService {
         return productRepository.getById(id);
     }
 
-    public void updateProduct(Product product){
-        Product productToUpdate = productRepository.getOne(product.getId());
-        productToUpdate = product;
-        productRepository.save(productToUpdate);
-        //TODO dodawanie produktów!
+    public void updateProduct(Product productOld){
+        Product product = new Product(
+                productOld.getName(),
+                productOld.getUnit(),
+                productOld.getProducent(),
+                productOld.getStock(),
+                productOld.getPrice(),
+                productOld.getStatus(),
+                productOld.getDescription(),
+                productOld.getCurrency(),
+                productOld.getCategory(),
+                productOld.getPlatform());
+
+        ArrayList<Long> orders = new ArrayList<>();
+        orderService.getAllOrders().forEach(a -> {
+            a.getProductIds().forEach(b ->{
+                if(b == product.getId()){
+                    if(orders.indexOf(a.getId())<0){
+                        orders.add(a.getId());
+                    }
+                }
+            });
+        });
+
+        if(orders.isEmpty()){
+            getActive().forEach(a -> {
+                if(a.getName() == product.getName()){
+                    deactivateProduct(a.getId());
+                }
+            });
+        } else {
+            getActive().forEach(a -> {
+                if(a.getName() == product.getName()){
+                    deactivateProduct(a.getId());
+                }
+            });
+            productReservationRepository.findAll().forEach(a -> {
+                if(a.getProductId() == productRepository.getByName(product.getName()).getId()){
+                    a.setProductId(product.getId());
+                }
+            });
+        }
+
+        productRepository.save(product);
     }
 }

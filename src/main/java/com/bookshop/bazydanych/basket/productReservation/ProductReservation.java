@@ -2,12 +2,7 @@ package com.bookshop.bazydanych.basket.productReservation;
 
 import com.bookshop.bazydanych.product.Product;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "product_reservations")
@@ -50,4 +45,8 @@ public class ProductReservation  {
 	public Product getProduct() {
 		return product;
 	}
+
+    public void setProductId(Long id){
+	    this.productReservationId.setProductId(id);
+    }
 }
