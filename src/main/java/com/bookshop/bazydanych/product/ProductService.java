@@ -6,6 +6,7 @@ import com.bookshop.bazydanych.category.Category;
 import com.bookshop.bazydanych.category.CategoryService;
 import com.bookshop.bazydanych.currency.Currency;
 import com.bookshop.bazydanych.currency.CurrencyService;
+import com.bookshop.bazydanych.order.OrderRepository;
 import com.bookshop.bazydanych.order.OrderService;
 import com.bookshop.bazydanych.platform.Platform;
 import com.bookshop.bazydanych.platform.PlatformService;
@@ -26,8 +27,9 @@ public class ProductService {
     private BasketService basketService;
     private ProductReservationRepository productReservationRepository;
     private OrderService orderService;
+    private OrderRepository orderRepository;
 
-    public ProductService(ProductRepository productRepository, CurrencyService currencyService, PlatformService platformService, CategoryService categoryService, BasketService basketService, ProductReservationRepository productReservationRepository, OrderService orderService) {
+    public ProductService(ProductRepository productRepository, CurrencyService currencyService, PlatformService platformService, CategoryService categoryService, BasketService basketService, ProductReservationRepository productReservationRepository, OrderService orderService, OrderRepository orderRepository) {
         this.productRepository = productRepository;
         this.currencyService = currencyService;
         this.platformService = platformService;
@@ -35,6 +37,7 @@ public class ProductService {
         this.basketService = basketService;
         this.productReservationRepository = productReservationRepository;
         this.orderService = orderService;
+        this.orderRepository = orderRepository;
     }
 
     public List<Product> getAllProducts(){
@@ -100,7 +103,7 @@ public class ProductService {
         orderService.getAllOrders().forEach(a -> {
             a.getProductIds().forEach(b ->{
                 if(b == product.getId()){
-                    if(orders.indexOf(a.getId())<0){
+                    if(!orders.contains(a)){
                         orders.add(a.getId());
                     }
                 }
@@ -108,23 +111,20 @@ public class ProductService {
         });
 
         if(orders.isEmpty()){
-            getActive().forEach(a -> {
-                if(a.getName() == product.getName()){
-                    deactivateProduct(a.getId());
-                }
-            });
+            deactivateProduct(product.getId());
         } else {
-            getActive().forEach(a -> {
-                if(a.getName() == product.getName()){
-                    deactivateProduct(a.getId());
-                }
-            });
             productReservationRepository.findAll().forEach(a -> {
                 if(a.getProductId() == productRepository.getByName(product.getName()).getId()){
                     a.setProductId(product.getId());
                 }
             });
         }
+
+        getActive().forEach(a -> {
+            if(a.getId() == product.getId()){
+                deactivateProduct(a.getId());
+            }
+        });
 
         productRepository.save(product);
     }
