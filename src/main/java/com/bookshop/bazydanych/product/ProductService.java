@@ -99,6 +99,7 @@ public class ProductService {
                 productOld.getCategory(),
                 productOld.getPlatform());
 
+
         ArrayList<Long> orders = new ArrayList<>();
         orderService.getAllOrders().forEach(a -> {
             a.getProductIds().forEach(b ->{
@@ -111,20 +112,12 @@ public class ProductService {
         });
 
         if(orders.isEmpty()){
-            deactivateProduct(product.getId());
+            deactivateProduct(productOld.getId());
         } else {
-            productReservationRepository.findAll().forEach(a -> {
-                if(a.getProductId() == productRepository.getByName(product.getName()).getId()){
-                    a.setProductId(product.getId());
-                }
+            productReservationRepository.getAllByProductReservationId_ProductId(product.getId()).forEach( a->{
+                a.setProductId(product.getId());
             });
         }
-
-        getActive().forEach(a -> {
-            if(a.getId() == product.getId()){
-                deactivateProduct(a.getId());
-            }
-        });
 
         productRepository.save(product);
     }
