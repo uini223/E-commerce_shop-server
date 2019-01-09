@@ -86,7 +86,7 @@ public class ProductService {
         return productRepository.getById(id);
     }
 
-    public void updateProduct(Product productOld){
+    public void updateProduct(ProductDTO productOld){
         Product product = new Product(
                 productOld.getName(),
                 productOld.getUnit(),
@@ -95,9 +95,9 @@ public class ProductService {
                 productOld.getPrice(),
                 productOld.getStatus(),
                 productOld.getDescription(),
-                productOld.getCurrency(),
-                productOld.getCategory(),
-                productOld.getPlatform());
+                currencyService.getCurrency(productOld.getCurrency_id()),
+                categoryService.getCategory(productOld.getCategory_id()),
+                platformService.getPlatform(productOld.getPlatform_id()));
 
 
         ArrayList<Long> orders = new ArrayList<>();
