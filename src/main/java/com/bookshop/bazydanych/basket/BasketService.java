@@ -73,6 +73,13 @@ public class BasketService {
 		}
 		Order order = orderService.createOrder(customerId, paymentType, transportType);
 		procedureRepository.moveProductsFromBasketToOrder(customerId, order.getId());
+		for (long productId :
+			order.getProductIds()) {
+			productReservationRepository.getAllByProductReservationId_ProductId(productId).forEach(e -> {
+
+			});
+
+		}
 	}
 
 	public BigDecimal calculatePriceWithTax(long customerId) {
