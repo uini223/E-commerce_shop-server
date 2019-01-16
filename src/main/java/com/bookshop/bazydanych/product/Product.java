@@ -96,4 +96,36 @@ public class Product extends BaseNamedEntity implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public void setProducent(String producent) {
+        this.producent = producent;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public void setPlatform(Platform platform) {
+        this.platform = platform;
+    }
 }

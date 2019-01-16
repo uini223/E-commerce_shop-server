@@ -87,6 +87,8 @@ public class ProductService {
     }
 
     public void updateProduct(ProductDTO productOld){
+        Product oldProduct = productRepository.getById(productOld.getId());
+
         Product product = new Product(
                 productOld.getName(),
                 productOld.getUnit(),
@@ -100,25 +102,41 @@ public class ProductService {
                 platformService.getPlatform(productOld.getPlatform_id()));
 
 
+        // sprawdz czy produkt jest w jakims orderze
         ArrayList<Long> orders = new ArrayList<>();
-        orderService.getAllOrders().forEach(a -> {
-            a.getProductIds().forEach(b ->{
-                if(b == product.getId()){
-                    if(!orders.contains(a)){
-                        orders.add(a.getId());
-                    }
+        orderService.getAllOrders().forEach(a -> a.getProductIds().forEach(b ->{
+            if(b == oldProduct.getId()){
+                if(!orders.contains(a.getId())){
+                    orders.add(a.getId());
                 }
-            });
-        });
+            }
+        }));
 
-        if(orders.isEmpty()){
+
+        if(!orders.isEmpty()){
+            // jezeli jest w jakims orderze to stworz nowy produkt a stary zdeaktywuj, zrób update orderów na nowe id
             deactivateProduct(productOld.getId());
-        } else {
             productReservationRepository.getAllByProductReservationId_ProductId(product.getId()).forEach( a->{
                 a.setProductId(product.getId());
             });
+            productRepository.save(product);
+        } else {
+            updateProductFields(oldProduct, productOld);
         }
 
-        productRepository.save(product);
+    }
+
+    private void updateProductFields(Product oldProduct, ProductDTO productOld) {
+        oldProduct.setName(productOld.getName());
+        oldProduct.setUnit(productOld.getUnit());
+        oldProduct.setProducent(productOld.getProducent());
+        oldProduct.setStock(productOld.getStock());
+        oldProduct.setPrice(productOld.getPrice());
+        oldProduct.setStatus(productOld.getStatus());
+        oldProduct.setDescription(productOld.getDescription());
+        oldProduct.setCurrency(currencyService.getCurrency(productOld.getCurrency_id()));
+        oldProduct.setCategory(categoryService.getCategory(productOld.getCategory_id()));
+        oldProduct.setPlatform(platformService.getPlatform(productOld.getPlatform_id()));
+       productRepository.save(oldProduct);
     }
 }
