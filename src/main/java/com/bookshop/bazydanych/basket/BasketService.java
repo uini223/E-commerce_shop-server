@@ -75,9 +75,8 @@ public class BasketService {
 		procedureRepository.moveProductsFromBasketToOrder(customerId, order.getId());
 		for (long productId :
 			order.getProductIds()) {
-			productReservationRepository.getAllByProductReservationId_ProductId(productId).forEach(e -> {
-
-			});
+			long suma = productReservationRepository.getAllByProductReservationId_ProductId(productId)
+							.stream().map(ProductReservation::getQuantity).mapToLong(Long::longValue).sum();
 
 		}
 	}
