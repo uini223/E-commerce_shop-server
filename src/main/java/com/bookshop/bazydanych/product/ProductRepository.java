@@ -17,4 +17,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
 	List<Product> getAllByCurrencyId(Long currencyId);
 
+	Product getByName(String name);
+
 }

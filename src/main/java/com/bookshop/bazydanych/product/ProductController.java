@@ -49,4 +49,9 @@ public class ProductController {
     public Product getById(@PathVariable Long id){
         return productService.getbyId(id);
     }
+
+    @PostMapping("/edit")
+    public void editProduct(@RequestBody ProductDTO product){
+        productService.updateProduct(product);
+    }
 }

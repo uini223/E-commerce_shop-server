@@ -39,4 +39,8 @@ public class ProductReservationId implements Serializable {
 	public int hashCode() {
 		return Objects.hash(customerId, productId);
 	}
+
+    public void setProductId(long productId) {
+        this.productId = productId;
+    }
 }

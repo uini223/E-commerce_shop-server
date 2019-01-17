@@ -7,6 +7,8 @@ import com.bookshop.bazydanych.order.Order;
 import com.bookshop.bazydanych.order.OrderService;
 import com.bookshop.bazydanych.order.PaymentType;
 import com.bookshop.bazydanych.order.TransportType;
+import com.bookshop.bazydanych.product.Product;
+import com.bookshop.bazydanych.product.ProductRepository;
 import com.bookshop.bazydanych.product.ProductSimpleDTO;
 import com.bookshop.bazydanych.shared.ProcedureRepository;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,11 +25,14 @@ public class BasketService {
 	private final ProductReservationRepository productReservationRepository;
 	private final OrderService orderService;
 	private final ProcedureRepository procedureRepository;
+	private final ProductRepository productRepository;
 
-	public BasketService(ProductReservationRepository productReservationRepository, OrderService orderService, ProcedureRepository procedureRepository) {
+	public BasketService(ProductReservationRepository productReservationRepository, OrderService orderService,
+						 ProcedureRepository procedureRepository, ProductRepository productRepository) {
 		this.productReservationRepository = productReservationRepository;
 		this.orderService = orderService;
 		this.procedureRepository = procedureRepository;
+		this.productRepository = productRepository;
 	}
 
 	@Transactional
@@ -73,6 +79,15 @@ public class BasketService {
 		}
 		Order order = orderService.createOrder(customerId, paymentType, transportType);
 		procedureRepository.moveProductsFromBasketToOrder(customerId, order.getId());
+		for (long productId : products.stream().map(ProductSimpleDTO::getId).collect(Collectors.toList())) {
+			Optional<Long> sum = orderService.getOrderProducts(order.getId())
+						   .stream()
+						   .filter(dto -> dto.getId() == productId)
+						   .map(ProductSimpleDTO::getQuantity).findFirst();
+			Product product = productRepository.getById(productId);
+			productRepository.save(product);
+			sum.ifPresent(aLong -> product.setStock((int) (product.getStock() - aLong)));
+		}
 	}
 
 	public BigDecimal calculatePriceWithTax(long customerId) {

@@ -13,4 +13,6 @@ public interface ProductReservationRepository extends JpaRepository<ProductReser
 	void deleteAllByProductReservationId_CustomerId(long customerId);
 
 	ProductReservation getByProductReservationId(ProductReservationId productReservationId);
+
+	List<ProductReservation> getAllByProductReservationId_ProductId(long product_id);
 }
