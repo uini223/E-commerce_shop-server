@@ -113,7 +113,7 @@ public class ProductService {
         }));
 
 
-        if(!orders.isEmpty()){
+        if(!orders.isEmpty()) {
             // jezeli jest w jakims orderze to stworz nowy produkt a stary zdeaktywuj, zrób update orderów na nowe id
             deactivateProduct(productOld.getId());
             productReservationRepository.getAllByProductReservationId_ProductId(product.getId()).forEach( a->{

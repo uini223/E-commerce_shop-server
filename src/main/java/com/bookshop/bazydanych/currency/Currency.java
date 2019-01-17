@@ -14,9 +14,9 @@ public class Currency extends BaseNamedEntity {
     private String code;
 
     @Column
-    private Integer exchange_rate;
+    private Double exchange_rate;
 
-    public Currency(String name, String code, Integer exchange_rate) {
+    public Currency(String name, String code, Double exchange_rate) {
         super(name);
         this.code = code;
         this.exchange_rate = exchange_rate;
@@ -28,7 +28,7 @@ public class Currency extends BaseNamedEntity {
         return code;
     }
 
-    public Integer getExchange_rate() {
+    public Double getExchange_rate() {
         return exchange_rate;
     }
 }
